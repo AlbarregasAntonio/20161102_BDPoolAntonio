@@ -41,7 +41,7 @@ if (request.getAttribute("ave") != null) {
                     <div id="anilla">
                         <label>*Anilla:</label>
                         <%if(ave!=null){%>
-                        <input type="text" name="anilla" value="<%=ave.getAnilla()%>" readonly title="Debes introducir un texto (3 caracteres max.)"/>
+                        <input type="text" name="anilla" value="<%=ave.getAnilla()%>" title="Debes introducir un texto (3 caracteres max.)"/>
                         <%}else{%>
                         <input type="text" name="anilla" title="Debes introducir un texto (3 caracteres max.)"/>
                         <%}%>

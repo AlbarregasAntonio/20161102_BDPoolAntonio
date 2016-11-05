@@ -37,7 +37,7 @@ import javax.sql.DataSource;
 
 @WebServlet(name = "RealizarOp", urlPatterns = {"/RealizarOp"})
 public class RealizarOp extends HttpServlet {
-    
+
         DataSource datasource;
 
     @Override
@@ -55,6 +55,7 @@ public class RealizarOp extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+// SE TE HA OLVIDADO BORRAR ESTA LÍNEA AL CREAR EL SERVLET
         try (PrintWriter out = response.getWriter()) {
             Connection conexion = null;
             PreparedStatement preparada = null;
@@ -90,6 +91,7 @@ public class RealizarOp extends HttpServlet {
                         String nombre = parametros.nextElement();
 
                         if (nombre.startsWith("ave")) {//realizamos un borrado por cada ave selccionada
+// CONVIENE CREAR UNA CLAUSULA WHERE
                             preparada = conexion.prepareStatement("Delete from aves where anilla =?");
                             preparada.setString(1, request.getParameter(nombre));
                             try {
@@ -117,7 +119,7 @@ public class RealizarOp extends HttpServlet {
                         }
                     }
                     request.getRequestDispatcher("JSP/finOp.jsp").forward(request, response);
-
+// SON LOS MISMOS PARA LAS DOS OPERACIONES
                 } catch (SQLException ex) {
                     System.out.println("Error al crear la conexión");
                     ex.printStackTrace();
@@ -134,16 +136,17 @@ public class RealizarOp extends HttpServlet {
 
             //si aceptamos que se modifiquen los datos mostrados del registro seleccionado
             if (request.getParameter("aceptarM") != null) {
-                
+
                 boolean controlarFecha = false;
                 boolean controlarAnilla = true;
                 boolean controlarEspecie = true;
                 boolean controlarLugar = true;
-
+// POR ESTO ES POR LO QUE NO PODEMOS CAMBIAR REGISTROS YA EXISTENTES
                 int aa = Integer.parseInt(request.getParameter("Ano"));
                 int mm = Integer.parseInt(request.getParameter("Mes"));
                 int dd = Integer.parseInt(request.getParameter("Dia"));
                 //controlamos que la fecha sea correcta
+
                 if (mm == 1 || mm == 3 || mm == 5 || mm == 7 || mm == 8 || mm == 10 || mm == 12) {
                     if (dd <= 31) {
                         controlarFecha = true;
@@ -182,7 +185,8 @@ public class RealizarOp extends HttpServlet {
                     sentencia = conexion.createStatement();
                     try {//si no hay errores en el formulario realizamos la modificacion
                         if (controlarFecha && controlarAnilla && controlarEspecie && controlarLugar) {
-                            
+// POR QUÉ CAMBIAS TODO SI ES POSIBLE QUE NO SE CAMBIE NADA
+// MEJOR UNA SENTENCIA PREPARADA
                             sentencia.executeUpdate("Update aves set especie='" + request.getParameter("especie") + "',lugar='" + request.getParameter("lugar")
                                     + "',fecha='" + request.getParameter("Ano") + "/" + request.getParameter("Mes") + "/" + request.getParameter("Dia") + "' where anilla='"
                                     + request.getParameter("anilla") + "'");

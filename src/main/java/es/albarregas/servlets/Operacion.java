@@ -34,7 +34,7 @@ import javax.sql.DataSource;
 @WebServlet(name = "Operacion", urlPatterns = {"/Operacion"})
 public class Operacion extends HttpServlet {
 
-    
+
     DataSource datasource;
 
     @Override
@@ -51,7 +51,7 @@ public class Operacion extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String operacion = request.getParameter("op");
         String url = "";
         Ave ave=null;
@@ -59,7 +59,7 @@ public class Operacion extends HttpServlet {
         Connection conexion = null;
         Statement sentencia = null;
         ResultSet resultado = null;
-        
+
         //controlamos que operacion se ha seleccionado
         switch (operacion) {
             case "insertar":
@@ -71,7 +71,7 @@ public class Operacion extends HttpServlet {
             case "eliminar":
 
                 url = "mostrarRegistros.jsp";
-                
+
                 try {//realizamos la conexion
                     conexion = datasource.getConnection();
                     sentencia = conexion.createStatement();
@@ -91,6 +91,7 @@ public class Operacion extends HttpServlet {
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
+// LAS SENTENCIAS DE ESTE FINALLY LAS TIENES QUE PONER EN EL FINALLY FINAL
                     } finally {
                         try {
                             if (sentencia != null) {
@@ -119,7 +120,7 @@ public class Operacion extends HttpServlet {
                         ex.printStackTrace();
                     }
                 }
-                
+
                 //enviamos por parametros las aves(excepto si queremos insertar)
                 request.setAttribute("aves", aves);
                 break;

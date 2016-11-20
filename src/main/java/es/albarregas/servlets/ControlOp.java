@@ -80,6 +80,7 @@ public class ControlOp extends HttpServlet {
 
                             if (nombre.startsWith("ave")) {
                                 //realizamos una consulta con cada ave(anilla) seleccionada
+// PODIAS HABER CONSTRUIDO LA CLAUSULA WHERE
                                 preparada = conexion.prepareStatement("select * from aves where anilla =?");
                                 preparada.setString(1, request.getParameter(nombre));
                                 try {
@@ -145,11 +146,12 @@ public class ControlOp extends HttpServlet {
                             //enviamos el ave como atributo
                             request.setAttribute("ave", ave);
                             }else{
-                               request.setAttribute("mostrar", "No se ha seleccionado ningun ave"); 
+                               request.setAttribute("mostrar", "No se ha seleccionado ningun ave");
                             }
                             request.getRequestDispatcher("JSP/mostrarModificar.jsp").forward(request, response);
                         } catch (SQLException e) {
                             e.printStackTrace();
+// ESTAS REPITIENDO LAS CLAUSULAS FINALLY
                         } finally {
                             try {
                                 if (preparada != null) {
